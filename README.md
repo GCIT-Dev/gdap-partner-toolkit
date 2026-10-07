@@ -4,7 +4,7 @@ MspGdap is a PowerShell module and a set of guides that help a Microsoft partner
 
 Based on the methods GCIT ([gcit.com.au](https://gcit.com.au)) uses to manage customer tenants, generalised and hardened so that any partner can run it in their own partner tenant.
 
-> Status: pre-release (0.2.1). Read the [support disclaimer](#support-disclaimer) before you use it against production tenants.
+> Status: public pre-release (0.2.1). Read the [support disclaimer](#support-disclaimer) before you use it against production tenants.
 
 ## What it does
 

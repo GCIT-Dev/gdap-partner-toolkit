@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [0.2.1] - Unreleased (pre-release)
+## [0.2.1] - 2026-10-07 (first public pre-release)
 
 Fixes from a live test on 7 October 2026 against a Microsoft partner tenant and a GDAP customer: app creation, technician token registration, pre-consent, Graph, Exchange Online and Security and Compliance with delegated GDAP tokens, and four rewritten scripts.
 
@@ -73,3 +73,5 @@ First public pre-release.
 - Guides 01 to 08, threat model, security policy, contributing guide.
 - CI with PSScriptAnalyzer (module and tests), Pester on Windows and Linux (including a check that every documentation example matches the module), and gitleaks with custom rules.
 
+[Unreleased]: https://github.com/GCIT-Dev/gdap-partner-toolkit/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/GCIT-Dev/gdap-partner-toolkit/releases/tag/v0.2.1
