@@ -177,6 +177,8 @@ Remove-MspPartnerAppConsent -TenantId 'fabrikam.onmicrosoft.com' -WhatIf
 Remove-MspPartnerAppConsent -TenantId 'fabrikam.onmicrosoft.com'
 ```
 
+The DELETE removes the tenant-wide grants but leaves the partner app's service principal in the customer tenant (seen in a live test on 7 October 2026). With no grants it can't be used, but for a full offboarding delete it too, from **Enterprise apps** in the customer tenant or with a Graph `DELETE servicePrincipals/{id}` as a technician whose GDAP roles include Cloud Application Administrator.
+
 If Partner Center has no record of the consent (for example it was granted by a customer admin, not through Partner Center), the result says so and fails while grants remain. The customer's admin can then delete the partner app from **Enterprise apps** in their tenant. Then:
 
 1. terminate or let expire the GDAP relationship,
