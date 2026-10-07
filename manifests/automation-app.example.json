@@ -1,0 +1,70 @@
+{
+  "manifestVersion": 1,
+  "name": "automation-app.example",
+  "description": "Example application (app-only) permissions for a SEPARATE optional multi-tenant automation app used for unattended jobs with a certificate. Do not add these to the delegated partner app. Exchange.ManageAsApp also needs the app's service principal in each customer assigned the Exchange Administrator role (or a scoped Exchange RBAC role). Before sending to Microsoft Graph, strip resourceDisplayName and value.",
+  "requiredResourceAccess": [
+    {
+      "resourceAppId": "00000002-0000-0ff1-ce00-000000000000",
+      "resourceDisplayName": "Office 365 Exchange Online",
+      "resourceAccess": [
+        {
+          "id": "dc50a0fb-09a3-484d-be87-e023b12c6440",
+          "type": "Role",
+          "value": "Exchange.ManageAsApp"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "00000003-0000-0000-c000-000000000000",
+      "resourceDisplayName": "Microsoft Graph",
+      "resourceAccess": [
+        {
+          "id": "498476ce-e0fe-48b0-b801-37ba7e2685c6",
+          "type": "Role",
+          "value": "Organization.Read.All"
+        },
+        {
+          "id": "dbb9058a-0e50-45d7-ae91-66909b5d4664",
+          "type": "Role",
+          "value": "Domain.Read.All"
+        },
+        {
+          "id": "df021288-bdef-4463-88db-98f22de89214",
+          "type": "Role",
+          "value": "User.Read.All"
+        },
+        {
+          "id": "5b567255-7703-4780-807c-7be8301ae99b",
+          "type": "Role",
+          "value": "Group.Read.All"
+        },
+        {
+          "id": "b0afded3-3588-46d8-8b3d-9842eff778da",
+          "type": "Role",
+          "value": "AuditLog.Read.All"
+        },
+        {
+          "id": "230c1aed-a721-4c5d-9cb4-a90514e508ef",
+          "type": "Role",
+          "value": "Reports.Read.All"
+        },
+        {
+          "id": "246dd0d5-5bd0-4def-940b-0421030a5b68",
+          "type": "Role",
+          "value": "Policy.Read.All"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "c5393580-f805-4401-95e8-94b7a6ef2fc2",
+      "resourceDisplayName": "Office 365 Management APIs",
+      "resourceAccess": [
+        {
+          "id": "594c1fb6-4f81-4475-ae41-0c394909246c",
+          "type": "Role",
+          "value": "ActivityFeed.Read"
+        }
+      ]
+    }
+  ]
+}

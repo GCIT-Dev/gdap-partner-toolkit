@@ -1,0 +1,31 @@
+# Azure Functions v4 timer function, PowerShell 7.4 or later (7.6 recommended).
+# Report only: lists customers without a retention policy. Creating policies stays a reviewed, interactive task.
+# Runs scripts/set-default-retention-policy.ps1 from the function app root. See profile.ps1 for the publish layout and app settings.
+# Replaces the Azure Functions v1 function in the original article: no stored password, AES key file,
+# storage account key or MSOnline module.
+param($Timer)
+
+$ErrorActionPreference = 'Stop'
+if ($Timer.IsPastDue) {
+    Write-Warning 'The timer trigger is running later than scheduled.'
+}
+
+$scriptPath = Join-Path -Path $PSScriptRoot -ChildPath '..' -AdditionalChildPath 'scripts', 'set-default-retention-policy.ps1'
+$scriptParams = @{}
+if ($env:MSPGDAP_TENANT_IDS) {
+    $scriptParams.TenantId = @($env:MSPGDAP_TENANT_IDS -split '[,;\s]+' | Where-Object { $_ })
+}
+else {
+    $scriptParams.AllCustomers = $true
+}
+
+$rows = @(& $scriptPath @scriptParams)
+
+$failed = @($rows | Where-Object { $_.Error })
+foreach ($failure in $failed) {
+    Write-Warning "Customer $($failure.CustomerTenantId) ($($failure.CustomerName)): $($failure.Error)"
+}
+
+Push-OutputBinding -Name 'report' -Value (ConvertTo-Json -InputObject $rows -Depth 5)
+
+Write-Information -MessageData ('{0} rows, {1} failed customers.' -f $rows.Count, $failed.Count) -InformationAction Continue

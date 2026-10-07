@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "type": "timerTrigger",
+      "direction": "in",
+      "name": "Timer",
+      "schedule": "0 0 20 * * *",
+      "runOnStartup": false
+    },
+    {
+      "type": "blob",
+      "direction": "out",
+      "name": "report",
+      "path": "mspgdap-reports/auto-forwarding/{rand-guid}.json",
+      "connection": "MspGdapStorage"
+    }
+  ]
+}

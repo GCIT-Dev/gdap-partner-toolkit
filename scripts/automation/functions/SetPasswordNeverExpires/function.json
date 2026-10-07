@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "type": "timerTrigger",
+      "direction": "in",
+      "name": "Timer",
+      "schedule": "0 0 20 * * 1-5",
+      "runOnStartup": false
+    },
+    {
+      "type": "blob",
+      "direction": "out",
+      "name": "report",
+      "path": "mspgdap-reports/password-expiry/{rand-guid}.json",
+      "connection": "MspGdapStorage"
+    }
+  ]
+}

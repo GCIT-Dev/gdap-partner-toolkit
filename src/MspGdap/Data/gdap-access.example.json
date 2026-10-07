@@ -1,0 +1,71 @@
+{
+  "accessMapVersion": 1,
+  "description": "Example access map for New-MspGdapRelationship and Set-MspGdapAccessAssignment. Copy it to your own configuration folder, replace every groupId with the object ID of a security group in YOUR partner tenant, and remove groups you do not use. The relationship gets the union of all roles below, and each group gets only its own roles. Roles can be objects (displayName and roleTemplateId) or plain strings (a role name or template ID).",
+  "assignments": [
+    {
+      "groupDisplayName": "GDAP-Readers",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Global Reader", "roleTemplateId": "f2ef992c-3afb-46b9-b7cf-a126ee74c451" },
+        { "displayName": "Reports Reader", "roleTemplateId": "4a5d8f65-41da-4de4-8968-e035b65339cf" },
+        { "displayName": "Security Reader", "roleTemplateId": "5d6b6bb7-de71-4623-b4af-96380a352509" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-Helpdesk",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Helpdesk Administrator", "roleTemplateId": "729827e3-9c14-49f7-bb1b-9608f156bbb8" },
+        { "displayName": "Service Support Administrator", "roleTemplateId": "f023fd81-a637-4b56-95fd-791ac0226033" },
+        { "displayName": "Directory Readers", "roleTemplateId": "88d8e3e3-8f55-4a1e-953a-9b9898b8876b" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-UserAdmin",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "User Administrator", "roleTemplateId": "fe930be7-5e62-47db-91af-98c3a49a38b1" },
+        { "displayName": "Groups Administrator", "roleTemplateId": "fdd7a751-b60b-444a-984c-02652fe8fa1c" },
+        { "displayName": "License Administrator", "roleTemplateId": "4d6ac14f-3453-41d0-bef9-a3e0c569773a" },
+        { "displayName": "Authentication Administrator", "roleTemplateId": "c4e39bd9-1100-46d3-8c65-fb160da0071f" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-Exchange",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Exchange Administrator", "roleTemplateId": "29232cdf-9323-42fd-ade2-1d097af3e4de" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-Endpoint",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Intune Administrator", "roleTemplateId": "3a2c62db-5318-420d-8d74-23affee5d9d5" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-Collaboration",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Teams Administrator", "roleTemplateId": "69091246-20e8-4a56-aa4d-066075b2a7a8" },
+        { "displayName": "SharePoint Administrator", "roleTemplateId": "f28a1f50-f6e7-4571-818b-6a12f2af6b6c" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-Security",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Security Administrator", "roleTemplateId": "194ae4cb-b126-40b2-bd5b-6091b380977d" },
+        { "displayName": "Conditional Access Administrator", "roleTemplateId": "b1be1c3e-b65d-4f19-8427-f6fa0d97feb9" }
+      ]
+    },
+    {
+      "groupDisplayName": "GDAP-AppConsent",
+      "groupId": "<PartnerSecurityGroupObjectId>",
+      "roles": [
+        { "displayName": "Cloud Application Administrator", "roleTemplateId": "158c047a-c907-4556-b7ef-446551a6b5f7" }
+      ]
+    }
+  ]
+}

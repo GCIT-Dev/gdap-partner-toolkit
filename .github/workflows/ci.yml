@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-test:
+    name: Lint and test (${{ matrix.os }}, PowerShell 7)
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Show PowerShell version
+        run: $PSVersionTable | Format-Table -AutoSize | Out-String | Write-Output
+
+      - name: Install Pester and PSScriptAnalyzer
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name Pester -MinimumVersion 5.5.0 -Scope CurrentUser -Force -SkipPublisherCheck
+          Install-Module -Name PSScriptAnalyzer -MinimumVersion 1.22.0 -Scope CurrentUser -Force
+          Get-Module -ListAvailable -Name Pester, PSScriptAnalyzer | Select-Object Name, Version | Format-Table -AutoSize | Out-String | Write-Output
+
+      - name: PSScriptAnalyzer
+        run: |
+          $paths = @('./src', './scripts') | Where-Object { Test-Path -Path $_ }
+          $results = @(foreach ($path in $paths) {
+              Invoke-ScriptAnalyzer -Path $path -Recurse -Settings ./PSScriptAnalyzerSettings.psd1
+          })
+          # Tests have their own settings file with documented exclusions for stub and fixture code
+          $results += @(Invoke-ScriptAnalyzer -Path ./tests -Recurse -Settings ./tests/PSScriptAnalyzerSettings.psd1)
+          if ($results) {
+              $results | Sort-Object Severity, ScriptName, Line | Format-Table Severity, RuleName, ScriptName, Line, Message -AutoSize -Wrap | Out-String -Width 300 | Write-Output
+          }
+          # Security-relevant warnings block the build as well as errors
+          $blockingRules = @(
+              'PSAvoidGlobalVars',
+              'PSAvoidUsingWriteHost',
+              'PSAvoidUsingPlainTextForPassword',
+              'PSAvoidUsingUsernameAndPasswordParams',
+              'PSAvoidUsingConvertToSecureStringWithPlainText',
+              'PSUseShouldProcessForStateChangingFunctions'
+          )
+          $blocking = @($results | Where-Object { $_.Severity -eq 'Error' -or $_.Severity -eq 'ParseError' -or $blockingRules -contains $_.RuleName })
+          if ($blocking.Count -gt 0) {
+              throw "PSScriptAnalyzer found $($blocking.Count) blocking issue(s)."
+          }
+
+      - name: Pester
+        run: |
+          Import-Module -Name Pester -MinimumVersion 5.5.0
+          $config = New-PesterConfiguration
+          $config.Run.Path = './tests'
+          $config.Run.Exit = $true
+          $config.Output.Verbosity = 'Detailed'
+          $config.TestResult.Enabled = $true
+          $config.TestResult.OutputFormat = 'NUnitXml'
+          $config.TestResult.OutputPath = 'testResults.xml'
+          Invoke-Pester -Configuration $config
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-results-${{ matrix.os }}
+          path: testResults.xml
+          if-no-files-found: ignore
+          retention-days: 14
+
+  secret-scan:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Required when the repository belongs to a GitHub organisation (free key from gitleaks.io)
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+          GITLEAKS_ENABLE_COMMENTS: false
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false

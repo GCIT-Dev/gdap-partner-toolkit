@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "type": "timerTrigger",
+      "direction": "in",
+      "name": "Timer",
+      "schedule": "0 0 20 * * *",
+      "runOnStartup": false
+    },
+    {
+      "type": "queue",
+      "direction": "out",
+      "name": "alerts",
+      "queueName": "mailbox-usage",
+      "connection": "MspGdapStorage"
+    }
+  ]
+}

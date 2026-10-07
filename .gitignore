@@ -1,0 +1,43 @@
+# MspGdap: never commit credentials or local configuration
+
+# Certificates and keys
+*.pfx
+*.p12
+*.cer
+*.crt
+*.der
+*.pem
+*.key
+*.snk
+*.jks
+
+# Local configuration and secrets
+config.json
+*.config.json
+*.secret
+*.secrets
+.mspgdap/
+.env
+.env.*
+local.settings.json
+*.clixml
+
+# Session dumps
+*.har
+
+# Test and build output
+TestResults/
+testResults.xml
+coverage.xml
+*.nupkg
+out/
+output/
+
+# Editor and OS files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

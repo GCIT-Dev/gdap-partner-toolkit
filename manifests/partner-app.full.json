@@ -1,0 +1,677 @@
+{
+  "manifestVersion": 1,
+  "name": "partner-app.full",
+  "description": "Delegated permissions for the multi-tenant partner app at parity with the reference implementation. Delegated only. Effective access in a customer is always limited by the technician's GDAP roles. Before sending to Microsoft Graph, strip resourceDisplayName and value (they are documentation and are used to validate each id against the resource service principal).",
+  "requiredResourceAccess": [
+    {
+      "resourceAppId": "00000003-0000-0000-c000-000000000000",
+      "resourceDisplayName": "Microsoft Graph",
+      "resourceAccess": [
+        {
+          "id": "37f7f235-527c-4136-accd-4a02d197296e",
+          "type": "Scope",
+          "value": "openid"
+        },
+        {
+          "id": "14dad69e-099b-42c9-810b-d002981feec1",
+          "type": "Scope",
+          "value": "profile"
+        },
+        {
+          "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+          "type": "Scope",
+          "value": "offline_access"
+        },
+        {
+          "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+          "type": "Scope",
+          "value": "User.Read"
+        },
+        {
+          "id": "1ca167d5-1655-44a1-8adf-1414072e1ef9",
+          "type": "Scope",
+          "value": "AppCatalog.ReadWrite.All"
+        },
+        {
+          "id": "3db89e36-7fa6-4012-b281-85f3d9d9fd2e",
+          "type": "Scope",
+          "value": "AppCatalog.Submit"
+        },
+        {
+          "id": "c79f8feb-a9db-4090-85f9-90d820caa0eb",
+          "type": "Scope",
+          "value": "Application.Read.All"
+        },
+        {
+          "id": "bdfbf15f-ee85-4955-8675-146e8e5296b5",
+          "type": "Scope",
+          "value": "Application.ReadWrite.All"
+        },
+        {
+          "id": "84bccea3-f856-4a8a-967b-dbe0a3d53a64",
+          "type": "Scope",
+          "value": "AppRoleAssignment.ReadWrite.All"
+        },
+        {
+          "id": "e4c9e354-4dc5-45b8-9e7c-e1393b0b1a20",
+          "type": "Scope",
+          "value": "AuditLog.Read.All"
+        },
+        {
+          "id": "b27a61ec-b99c-4d6a-b126-c4375d08ae30",
+          "type": "Scope",
+          "value": "BitlockerKey.Read.All"
+        },
+        {
+          "id": "9d8982ae-4365-4f57-95e9-d6032a4c0b87",
+          "type": "Scope",
+          "value": "Channel.ReadBasic.All"
+        },
+        {
+          "id": "767156cb-16ae-4d10-8f8b-41b657c8c8c8",
+          "type": "Scope",
+          "value": "ChannelMessage.Read.All"
+        },
+        {
+          "id": "38826093-1258-4dea-98f0-00003be2b8d0",
+          "type": "Scope",
+          "value": "Chat.Create"
+        },
+        {
+          "id": "9ff7295e-131b-4d94-90e1-69fde507ac11",
+          "type": "Scope",
+          "value": "Chat.ReadWrite"
+        },
+        {
+          "id": "a2dcfcb9-cbe8-4d42-812d-952e55cf7f3f",
+          "type": "Scope",
+          "value": "CopilotPackages.Read.All"
+        },
+        {
+          "id": "e9c5fd18-ac15-43dd-9f5c-6f9611dd5604",
+          "type": "Scope",
+          "value": "CopilotPackages.ReadWrite.All"
+        },
+        {
+          "id": "885f682f-a990-4bad-a642-36736a74b0c7",
+          "type": "Scope",
+          "value": "DelegatedAdminRelationship.ReadWrite.All"
+        },
+        {
+          "id": "7b3f05d5-f68c-4b8d-8c59-a2ecd12f24af",
+          "type": "Scope",
+          "value": "DeviceManagementApps.ReadWrite.All"
+        },
+        {
+          "id": "f1493658-876a-4c87-8fa7-edb559b3476a",
+          "type": "Scope",
+          "value": "DeviceManagementConfiguration.Read.All"
+        },
+        {
+          "id": "0883f392-0a7a-443d-8c76-16a6d39c7b63",
+          "type": "Scope",
+          "value": "DeviceManagementConfiguration.ReadWrite.All"
+        },
+        {
+          "id": "314874da-47d6-4978-88dc-cf0d37f0bb82",
+          "type": "Scope",
+          "value": "DeviceManagementManagedDevices.Read.All"
+        },
+        {
+          "id": "44642bfe-8385-4adc-8fc6-fe3cb2c375c3",
+          "type": "Scope",
+          "value": "DeviceManagementManagedDevices.ReadWrite.All"
+        },
+        {
+          "id": "662ed50a-ac44-4eef-ad86-62eed9be2a29",
+          "type": "Scope",
+          "value": "DeviceManagementServiceConfig.ReadWrite.All"
+        },
+        {
+          "id": "06da0dbc-49e2-44d2-8312-53f166ab848a",
+          "type": "Scope",
+          "value": "Directory.Read.All"
+        },
+        {
+          "id": "c5366453-9fb0-48a5-a156-24f0c49a4b84",
+          "type": "Scope",
+          "value": "Directory.ReadWrite.All"
+        },
+        {
+          "id": "2f9ee017-59c1-4f1d-9472-bd5529a7b311",
+          "type": "Scope",
+          "value": "Domain.Read.All"
+        },
+        {
+          "id": "0b5d694c-a244-4bde-86e6-eb5cd07730fe",
+          "type": "Scope",
+          "value": "Domain.ReadWrite.All"
+        },
+        {
+          "id": "863451e7-0667-486c-a5d6-d135439485f0",
+          "type": "Scope",
+          "value": "Files.ReadWrite.All"
+        },
+        {
+          "id": "4e46008b-f24c-477d-8fff-7bb4ec7aafe0",
+          "type": "Scope",
+          "value": "Group.ReadWrite.All"
+        },
+        {
+          "id": "8f6a01e7-0391-4ee5-aa22-a3af122cef27",
+          "type": "Scope",
+          "value": "IdentityRiskEvent.Read.All"
+        },
+        {
+          "id": "d04bb851-cb7c-4146-97c7-ca3e71baf56c",
+          "type": "Scope",
+          "value": "IdentityRiskyUser.Read.All"
+        },
+        {
+          "id": "024d486e-b451-40bb-833d-3e66d98c5c73",
+          "type": "Scope",
+          "value": "Mail.ReadWrite"
+        },
+        {
+          "id": "e383f46e-2787-4529-855e-0e479a3ffac0",
+          "type": "Scope",
+          "value": "Mail.Send"
+        },
+        {
+          "id": "818c620a-27a9-40bd-a6a5-d96f7d610b4b",
+          "type": "Scope",
+          "value": "MailboxSettings.ReadWrite"
+        },
+        {
+          "id": "4908d5b9-3fb2-4b1e-9336-1888b7937185",
+          "type": "Scope",
+          "value": "Organization.Read.All"
+        },
+        {
+          "id": "572fea84-0151-49b2-9301-11cb16974376",
+          "type": "Scope",
+          "value": "Policy.Read.All"
+        },
+        {
+          "id": "4f5bc9c8-ea54-4772-973a-9ca119cb0409",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.AccessReview"
+        },
+        {
+          "id": "b27add92-efb2-4f16-84f5-8108ba77985c",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.ApplicationConfiguration"
+        },
+        {
+          "id": "edb72de9-4252-4d03-a925-451deef99db7",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.AuthenticationFlows"
+        },
+        {
+          "id": "7e823077-d88e-468f-a337-e18f1f0e6c7c",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.AuthenticationMethod"
+        },
+        {
+          "id": "edd3c878-b384-41fd-95ad-e7407dd775be",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.Authorization"
+        },
+        {
+          "id": "ad902697-1014-4ef5-81ef-2b4301988e8c",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.ConditionalAccess"
+        },
+        {
+          "id": "4d135e65-66b8-41a8-9f8b-081452c91774",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.ConsentRequest"
+        },
+        {
+          "id": "014b43d0-6ed4-4fc6-84dc-4b6f7bae7d85",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.CrossTenantAccess"
+        },
+        {
+          "id": "9ef7463f-1d39-406f-89ea-3483a4645e1c",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.CrossTenantCapability"
+        },
+        {
+          "id": "40b534c3-9552-4550-901b-23879c90bcf9",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.DeviceConfiguration"
+        },
+        {
+          "id": "b5219784-1215-45b5-b3f1-88fe1081f9c0",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.ExternalIdentities"
+        },
+        {
+          "id": "92a38652-f13b-4875-bc77-6e1dbb63e1b2",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.FeatureRollout"
+        },
+        {
+          "id": "be1be369-4540-4ac9-8928-79de99f70d8f",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.FedTokenValidation"
+        },
+        {
+          "id": "7256e131-3efb-4323-9854-cf41c6021770",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.IdentityProtection"
+        },
+        {
+          "id": "a8ead177-1889-4546-9387-f25e658e2a79",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.MobilityManagement"
+        },
+        {
+          "id": "2672f8bb-fd5e-42e0-85e1-ec764dd2614e",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.PermissionGrant"
+        },
+        {
+          "id": "0b2a744c-2abf-4f1e-ad7e-17a087e2be99",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.SecurityDefaults"
+        },
+        {
+          "id": "cefba324-1a70-4a6e-9c1d-fd670b7ae392",
+          "type": "Scope",
+          "value": "Policy.ReadWrite.TrustFramework"
+        },
+        {
+          "id": "9c7a330d-35b3-4aa1-963d-cb2b9f927841",
+          "type": "Scope",
+          "value": "Presence.Read.All"
+        },
+        {
+          "id": "02e97553-ed7b-43d0-ab3c-f8bace0d040c",
+          "type": "Scope",
+          "value": "Reports.Read.All"
+        },
+        {
+          "id": "d01b97e9-cbc0-49fe-810a-750afd5527a3",
+          "type": "Scope",
+          "value": "RoleManagement.ReadWrite.Directory"
+        },
+        {
+          "id": "bc257fb8-46b4-4b15-8713-01e91bfbe4ea",
+          "type": "Scope",
+          "value": "SecurityAlert.Read.All"
+        },
+        {
+          "id": "471f2a7f-2a42-4d45-a2bf-594d0838070d",
+          "type": "Scope",
+          "value": "SecurityAlert.ReadWrite.All"
+        },
+        {
+          "id": "64733abd-851e-478a-bffb-e47a14b18235",
+          "type": "Scope",
+          "value": "SecurityEvents.Read.All"
+        },
+        {
+          "id": "6aedf524-7e1c-45a7-bd76-ded8cab8d0fc",
+          "type": "Scope",
+          "value": "SecurityEvents.ReadWrite.All"
+        },
+        {
+          "id": "b9abcc4f-94fc-4457-9141-d20ce80ec952",
+          "type": "Scope",
+          "value": "SecurityIncident.Read.All"
+        },
+        {
+          "id": "eda39fa6-f8cf-4c3c-a909-432c683e4c9b",
+          "type": "Scope",
+          "value": "ServiceMessage.Read.All"
+        },
+        {
+          "id": "5a54b8b3-347c-476d-8f8e-42d5c7424d29",
+          "type": "Scope",
+          "value": "Sites.FullControl.All"
+        },
+        {
+          "id": "89fe6a52-be36-487e-b7d8-d061c450a026",
+          "type": "Scope",
+          "value": "Sites.ReadWrite.All"
+        },
+        {
+          "id": "2219042f-cab5-40cc-b0d2-16b1540b4c5f",
+          "type": "Scope",
+          "value": "Tasks.ReadWrite"
+        },
+        {
+          "id": "485be79e-c497-4b35-9400-0e3fa7f2a5d4",
+          "type": "Scope",
+          "value": "Team.ReadBasic.All"
+        },
+        {
+          "id": "e1408a66-8f82-451b-a2f3-3c3e38f7413f",
+          "type": "Scope",
+          "value": "TeamsAppInstallation.ReadWriteAndConsentForChat"
+        },
+        {
+          "id": "aa85bf13-d771-4d5d-a9e6-bca04ce44edf",
+          "type": "Scope",
+          "value": "TeamsAppInstallation.ReadWriteForChat"
+        },
+        {
+          "id": "2e25a044-2580-450d-8859-42eeb6e996c0",
+          "type": "Scope",
+          "value": "TeamsAppInstallation.ReadWriteForTeam"
+        },
+        {
+          "id": "093f8818-d05f-49b8-95bc-9d2a73e9a43c",
+          "type": "Scope",
+          "value": "TeamsAppInstallation.ReadWriteForUser"
+        },
+        {
+          "id": "0ce33576-30e8-43b7-99e5-62f8569a4002",
+          "type": "Scope",
+          "value": "TeamsAppInstallation.ReadWriteSelfForChat"
+        },
+        {
+          "id": "0f4595f7-64b1-4e13-81bc-11a249df07a9",
+          "type": "Scope",
+          "value": "TeamsAppInstallation.ReadWriteSelfForTeam"
+        },
+        {
+          "id": "b152eca8-ea73-4a48-8c98-1a6742673d99",
+          "type": "Scope",
+          "value": "ThreatHunting.Read.All"
+        },
+        {
+          "id": "f266d9c0-ccb9-4fb8-a228-01ac0d8d6627",
+          "type": "Scope",
+          "value": "ThreatIntelligence.Read.All"
+        },
+        {
+          "id": "204e0828-b5ca-4ad8-b9f3-f32a958e7cc4",
+          "type": "Scope",
+          "value": "User.ReadWrite.All"
+        },
+        {
+          "id": "aec28ec7-4d02-4e8c-b864-50163aea77eb",
+          "type": "Scope",
+          "value": "UserAuthenticationMethod.Read.All"
+        },
+        {
+          "id": "b7887744-6746-4312-813d-72daeaee7e2d",
+          "type": "Scope",
+          "value": "UserAuthenticationMethod.ReadWrite.All"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "fa3d9a0c-3fb0-42cc-9193-47c7ecd2edbd",
+      "resourceDisplayName": "Microsoft Partner Center",
+      "resourceAccess": [
+        {
+          "id": "1cebfa2a-fb4d-419e-b5f9-839b4383e05a",
+          "type": "Scope",
+          "value": "user_impersonation"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "00000002-0000-0ff1-ce00-000000000000",
+      "resourceDisplayName": "Office 365 Exchange Online",
+      "resourceAccess": [
+        {
+          "id": "ab4f2b77-0b06-4fc1-a9de-02113fc2ab7c",
+          "type": "Scope",
+          "value": "Exchange.Manage"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "00000003-0000-0ff1-ce00-000000000000",
+      "resourceDisplayName": "Office 365 SharePoint Online",
+      "resourceAccess": [
+        {
+          "id": "56680e0d-d2a3-4ae1-80d8-3c4f2100e3d0",
+          "type": "Scope",
+          "value": "AllSites.FullControl"
+        },
+        {
+          "id": "b3f70a70-8a4b-4f95-9573-d71c496a53f4",
+          "type": "Scope",
+          "value": "AllSites.Manage"
+        },
+        {
+          "id": "640ddd16-e5b7-4d71-9690-3f4022699ee7",
+          "type": "Scope",
+          "value": "AllSites.Write"
+        },
+        {
+          "id": "dd2c8d78-58e1-46d7-82dd-34d411282686",
+          "type": "Scope",
+          "value": "MyFiles.Read"
+        },
+        {
+          "id": "2cfdc887-d7b4-4798-9b33-3d98d6b95dd2",
+          "type": "Scope",
+          "value": "MyFiles.Write"
+        },
+        {
+          "id": "1002502a-9a71-4426-8551-69ab83452fab",
+          "type": "Scope",
+          "value": "Sites.Search.All"
+        },
+        {
+          "id": "59a198b5-0420-45a8-ae59-6da1cb640505",
+          "type": "Scope",
+          "value": "TermStore.ReadWrite.All"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "c5393580-f805-4401-95e8-94b7a6ef2fc2",
+      "resourceDisplayName": "Office 365 Management APIs",
+      "resourceAccess": [
+        {
+          "id": "594c1fb6-4f81-4475-ae41-0c394909246c",
+          "type": "Scope",
+          "value": "ActivityFeed.Read"
+        },
+        {
+          "id": "4807a72c-ad38-4250-94c9-4eabfe26cd55",
+          "type": "Scope",
+          "value": "ActivityFeed.ReadDlp"
+        },
+        {
+          "id": "e2cea78f-e743-4d8f-a16a-75b629a038ae",
+          "type": "Scope",
+          "value": "ServiceHealth.Read"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "fc780465-2017-40d4-a0c5-307022471b92",
+      "resourceDisplayName": "WindowsDefenderATP (Microsoft Defender for Endpoint)",
+      "resourceAccess": [
+        {
+          "id": "b2069dc0-9fe9-4e6d-9aca-ccf3dd503819",
+          "type": "Scope",
+          "value": "Alert.Read"
+        },
+        {
+          "id": "cbc3b413-21e6-416d-95a4-af87687efbd0",
+          "type": "Scope",
+          "value": "Alert.ReadWrite"
+        },
+        {
+          "id": "8fce64a0-67c8-4e39-8f47-cac9ff7e13bb",
+          "type": "Scope",
+          "value": "File.Read.All"
+        },
+        {
+          "id": "7c6f6912-60e9-4fcd-bb2a-c25bc35e8c59",
+          "type": "Scope",
+          "value": "IntegrationConfiguration.ReadWrite"
+        },
+        {
+          "id": "b65a97e8-c8e8-4908-b19a-f654615de1a9",
+          "type": "Scope",
+          "value": "Ip.Read.All"
+        },
+        {
+          "id": "5eb7b9dc-cbce-4c7e-9d73-5be248260ae6",
+          "type": "Scope",
+          "value": "Machine.CollectForensics"
+        },
+        {
+          "id": "479231ef-3b86-4933-ae6b-1fa84bba9e31",
+          "type": "Scope",
+          "value": "Machine.Isolate"
+        },
+        {
+          "id": "25fb0c21-5877-492a-8d0c-e7893a9585cc",
+          "type": "Scope",
+          "value": "Machine.LiveResponse"
+        },
+        {
+          "id": "fbd3d33a-b1f5-4573-906c-51b39682fbcf",
+          "type": "Scope",
+          "value": "Machine.Read"
+        },
+        {
+          "id": "f6846c57-9e3c-4a65-81aa-2f5e09ff4f0b",
+          "type": "Scope",
+          "value": "Machine.ReadWrite"
+        },
+        {
+          "id": "abddfa88-80bb-4aef-81ff-18cbf29363a9",
+          "type": "Scope",
+          "value": "Machine.RestrictExecution"
+        },
+        {
+          "id": "b4618115-647e-42a5-bd0d-0ea9878fb376",
+          "type": "Scope",
+          "value": "Machine.Scan"
+        },
+        {
+          "id": "69e036b7-3f10-4d4c-a85e-82295629eca8",
+          "type": "Scope",
+          "value": "Machine.StopAndQuarantine"
+        },
+        {
+          "id": "19956c04-168f-4f44-b471-48c8f50dc0c8",
+          "type": "Scope",
+          "value": "RemediationTasks.Read"
+        },
+        {
+          "id": "df4ed126-3a4c-460a-b0fc-67aea84fc332",
+          "type": "Scope",
+          "value": "Score.Read"
+        },
+        {
+          "id": "d42e2aa1-a664-43a9-b7c6-2766d44a6687",
+          "type": "Scope",
+          "value": "SecurityBaselinesAssessment.Read"
+        },
+        {
+          "id": "bfc81a3a-4f6d-4bfe-b945-d7fe6747d2a0",
+          "type": "Scope",
+          "value": "SecurityConfiguration.ReadWrite"
+        },
+        {
+          "id": "1ab96238-1253-4059-a32f-4087f20ed65d",
+          "type": "Scope",
+          "value": "SecurityRecommendation.Read"
+        },
+        {
+          "id": "5f216ada-3f51-4a22-ace5-06b198328476",
+          "type": "Scope",
+          "value": "Software.Read"
+        },
+        {
+          "id": "42b4777c-6196-49ad-9cfc-207e73f2eb61",
+          "type": "Scope",
+          "value": "Url.Read.All"
+        },
+        {
+          "id": "63a677ce-818c-4409-9d12-5c6d2e2a6bfe",
+          "type": "Scope",
+          "value": "Vulnerability.Read"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "48ac35b8-9aa8-4d74-927d-1f4a14a0b239",
+      "resourceDisplayName": "Skype and Teams Tenant Admin API",
+      "resourceAccess": [
+        {
+          "id": "e60370c1-e451-437e-aa6e-d76df38e5f15",
+          "type": "Scope",
+          "value": "user_impersonation"
+        },
+        {
+          "id": "d326a74b-6caa-4da2-95a3-e2a64a01e18c",
+          "type": "Scope",
+          "value": "Team.ReadBasic.All"
+        },
+        {
+          "id": "0e276de4-189b-47b3-8c80-ce726cfb7671",
+          "type": "Scope",
+          "value": "MailboxSettings.Read"
+        },
+        {
+          "id": "98a74943-4bc4-416e-8028-288cf2f36197",
+          "type": "Scope",
+          "value": "sharepoint_service"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "797f4846-ba00-4fd7-ba43-dac1f8f63013",
+      "resourceDisplayName": "Azure Resource Manager",
+      "resourceAccess": [
+        {
+          "id": "41094075-9dad-400e-a0bd-54e686782033",
+          "type": "Scope",
+          "value": "user_impersonation"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "00000007-0000-0000-c000-000000000000",
+      "resourceDisplayName": "Dataverse",
+      "resourceAccess": [
+        {
+          "id": "78ce3f0f-a1ce-49c2-8cde-64b5c0896db4",
+          "type": "Scope",
+          "value": "user_impersonation"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "c9a559d2-7aab-4f13-a6ed-e7e9c52aec87",
+      "resourceDisplayName": "Microsoft Forms",
+      "resourceAccess": [
+        {
+          "id": "06b7d4cf-7757-4402-b310-dfc29621dc81",
+          "type": "Scope",
+          "value": "Forms.Read"
+        },
+        {
+          "id": "2b46f208-3e71-4016-b165-71b4918b527b",
+          "type": "Scope",
+          "value": "Forms.ReadWrite"
+        },
+        {
+          "id": "67959cf5-ad1e-4b18-b9df-58fad1e7eb40",
+          "type": "Scope",
+          "value": "Responses.Read.All"
+        },
+        {
+          "id": "17a73123-533c-4f69-a37c-be22ec00e5fe",
+          "type": "Scope",
+          "value": "Responses.ReadWrite"
+        }
+      ]
+    }
+  ]
+}

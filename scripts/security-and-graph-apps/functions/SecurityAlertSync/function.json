@@ -1,0 +1,33 @@
+{
+  "bindings": [
+    {
+      "type": "timerTrigger",
+      "direction": "in",
+      "name": "Timer",
+      "schedule": "0 */30 * * * *",
+      "runOnStartup": false
+    },
+    {
+      "type": "queue",
+      "direction": "out",
+      "name": "alerts",
+      "queueName": "security-alerts",
+      "connection": "MspGdapStorage"
+    },
+    {
+      "type": "blob",
+      "direction": "in",
+      "name": "previousState",
+      "path": "mspgdap-state/security-alerts.json",
+      "dataType": "string",
+      "connection": "MspGdapStorage"
+    },
+    {
+      "type": "blob",
+      "direction": "out",
+      "name": "state",
+      "path": "mspgdap-state/security-alerts.json",
+      "connection": "MspGdapStorage"
+    }
+  ]
+}

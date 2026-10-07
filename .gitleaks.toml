@@ -1,0 +1,183 @@
+# gitleaks configuration for MspGdap
+#
+# Extends the default gitleaks rules with checks for the credentials and
+# identifiers this toolkit handles: Microsoft Entra refresh tokens, client
+# secrets, bearer tokens, certificate blobs, credential files, tenant and app
+# IDs, and organisation-specific Azure hostnames.
+#
+# Conventions the rules rely on (see CONTRIBUTING.md):
+# - Placeholder IDs use a repeated character, for example
+#   00000000-0000-0000-0000-000000000000 or 11111111-1111-1111-1111-111111111111.
+# - Public Microsoft IDs (first-party app IDs, permission IDs, role template IDs)
+#   in src/ or scripts/ sit on a line that names them (roleTemplateId,
+#   resourceAppId and similar) or end with the comment "# public-id".
+#
+# Maintainers who need to scan for their own organisation's identifiers should
+# keep those patterns in a private config outside this repository and run
+# gitleaks locally with it. Never commit real identifiers here.
+
+title = "MspGdap gitleaks configuration"
+
+[extend]
+useDefault = true
+
+# -----------------------------------------------------------------------------
+# Credential files that must never be committed (path-only rule)
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-credential-file"
+description = "Certificate, private key or local MspGdap configuration file"
+path = '''(?i)(\.(pfx|p12|cer|crt|der|pem|key|snk|jks)$|(^|/)\.mspgdap/|(^|/)config\.json$|\.secrets?$|(^|/)local\.settings\.json$|(^|/)\.env(\..+)?$)'''
+tags = ["file", "mspgdap"]
+
+# -----------------------------------------------------------------------------
+# Microsoft Entra refresh tokens (opaque, typically start with 0.A or 1.A)
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-entra-refresh-token"
+description = "Microsoft Entra refresh token"
+regex = '''(?:^|[^A-Za-z0-9._-])([01]\.A[A-Za-z0-9_.-]{200,})'''
+secretGroup = 1
+entropy = 3.5
+keywords = ["0.a", "1.a"]
+tags = ["token", "mspgdap"]
+
+# -----------------------------------------------------------------------------
+# Bearer tokens pasted into code, logs or docs
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-bearer-token"
+description = "Bearer token in an Authorization header"
+regex = '''(?i)bearer\s+([A-Za-z0-9._~+/-]{100,}=*)'''
+secretGroup = 1
+entropy = 3.5
+keywords = ["bearer"]
+tags = ["token", "mspgdap"]
+
+# -----------------------------------------------------------------------------
+# Client secrets assigned to a named variable or property
+# (the default azure-ad-client-secret rule covers the Q~ format anywhere)
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-client-secret-assignment"
+description = "Client secret assigned to a variable, parameter or property"
+regex = '''(?i)(?:client[_-]?secret|app[_-]?secret|application[_-]?secret)["']?\s*(?:[:=]|\s)\s*["']([A-Za-z0-9_~.\-+/=]{24,})["']'''
+secretGroup = 1
+entropy = 3.5
+keywords = ["secret"]
+tags = ["secret", "mspgdap"]
+
+# -----------------------------------------------------------------------------
+# Large base64 DER blobs: PFX/PKCS#12, certificates or keys pasted as text
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-der-base64-blob"
+description = "Base64 DER blob (PFX, certificate or private key)"
+regex = '''(MII[A-Za-z0-9+/]{1000,}={0,2})'''
+secretGroup = 1
+keywords = ["mii"]
+tags = ["certificate", "mspgdap"]
+
+# -----------------------------------------------------------------------------
+# Tenant IDs next to a tenant-style name (any file)
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-tenant-id"
+description = "Tenant ID (GUID) assigned to a tenant-style name"
+regex = '''(?i)(?:tenant[_-]?id|directory[_-]?id|\btid)["']?\s*(?:[:=]|\s)\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'''
+secretGroup = 1
+keywords = ["tenant", "directory", "tid"]
+tags = ["identifier", "mspgdap"]
+
+    [[rules.allowlists]]
+    description = "Placeholder GUIDs made of one repeated character"
+    regexes = [
+      '''^(?:0{8}|1{8}|2{8}|3{8}|4{8}|5{8}|6{8}|7{8}|8{8}|9{8}|a{8}|b{8}|c{8}|d{8}|e{8}|f{8})-''',
+    ]
+
+# -----------------------------------------------------------------------------
+# App (client) IDs next to an app-style name (any file)
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-app-id"
+description = "Application (client) ID assigned to an app-style name"
+regex = '''(?i)(?:client[_-]?id|app[_-]?id|application[_-]?id)["']?\s*(?:[:=]|\s)\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'''
+secretGroup = 1
+keywords = ["clientid", "client_id", "client-id", "appid", "app_id", "app-id", "applicationid", "application_id", "application-id"]
+tags = ["identifier", "mspgdap"]
+
+    [[rules.allowlists]]
+    description = "Placeholder GUIDs and public Microsoft first-party application IDs"
+    regexes = [
+      '''^(?:0{8}|1{8}|2{8}|3{8}|4{8}|5{8}|6{8}|7{8}|8{8}|9{8}|a{8}|b{8}|c{8}|d{8}|e{8}|f{8})-''',
+      '''^0000000[0-9a-f]-0000-0(?:000-c000|ff1-ce00)-000000000000$''',
+      '''^fa3d9a0c-3fb0-42cc-9193-47c7ecd2edbd$''',
+      '''^c5393580-f805-4401-95e8-94b7a6ef2fc2$''',
+      '''^fc780465-2017-40d4-a0c5-307022471b92$''',
+      '''^48ac35b8-9aa8-4d74-927d-1f4a14a0b239$''',
+      '''^797f4846-ba00-4fd7-ba43-dac1f8f63013$''',
+      '''^c9a559d2-7aab-4f13-a6ed-e7e9c52aec87$''',
+      '''^2832473f-ec63-45fb-976f-5d45a7d4bb91$''',
+    ]
+
+# -----------------------------------------------------------------------------
+# Any GUID in module and script code that is not a placeholder or a labelled
+# public Microsoft ID. Real tenant, app and object IDs never belong in code.
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-guid-in-code"
+description = "Unlabelled GUID in module or script code"
+path = '''^(?:src|scripts|examples)/.*\.(?:ps1|psm1|psd1|json)$'''
+regex = '''([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})'''
+secretGroup = 1
+tags = ["identifier", "mspgdap"]
+
+    [[rules.allowlists]]
+    description = "Placeholder GUIDs and public Microsoft first-party application IDs"
+    regexes = [
+      '''^(?:0{8}|1{8}|2{8}|3{8}|4{8}|5{8}|6{8}|7{8}|8{8}|9{8}|a{8}|b{8}|c{8}|d{8}|e{8}|f{8})-''',
+      '''^0000000[0-9a-f]-0000-0(?:000-c000|ff1-ce00)-000000000000$''',
+      '''^fa3d9a0c-3fb0-42cc-9193-47c7ecd2edbd$''',
+      '''^c5393580-f805-4401-95e8-94b7a6ef2fc2$''',
+      '''^fc780465-2017-40d4-a0c5-307022471b92$''',
+      '''^48ac35b8-9aa8-4d74-927d-1f4a14a0b239$''',
+      '''^797f4846-ba00-4fd7-ba43-dac1f8f63013$''',
+      '''^c9a559d2-7aab-4f13-a6ed-e7e9c52aec87$''',
+      '''^2832473f-ec63-45fb-976f-5d45a7d4bb91$''',
+    ]
+
+    [[rules.allowlists]]
+    description = "Lines that label the GUID as a public Microsoft ID or the module GUID"
+    regexTarget = "line"
+    regexes = [
+      '''(?i)(roleTemplateId|roleDefinitionId|appRoleId|resourceAppId|enterpriseApplicationId|permissionId|scopeId|templateId)''',
+      '''(?i)^\s*GUID\s*=''',
+      '''#\s*public-id\b''',
+    ]
+
+# -----------------------------------------------------------------------------
+# Organisation-specific Azure hostnames (vaults and function apps).
+# Documentation must use placeholders such as <KeyVaultName>.
+# -----------------------------------------------------------------------------
+[[rules]]
+id = "mspgdap-azure-hostname"
+description = "Real Azure Key Vault or App Service hostname"
+regex = '''(?i)\b([a-z0-9][a-z0-9-]{2,62})\.(?:vault\.azure\.net|azurewebsites\.net|scm\.azurewebsites\.net)\b'''
+secretGroup = 1
+keywords = ["vault.azure.net", "azurewebsites.net"]
+tags = ["hostname", "mspgdap"]
+
+    [[rules.allowlists]]
+    description = "Generic and fictitious names"
+    regexes = [
+      '''(?i)^(contoso|fabrikam|adatum|example|myvault|my-vault|your-vault|yourvault|kv-example|func-example|scm)[a-z0-9-]*$''',
+    ]
+
+# -----------------------------------------------------------------------------
+# Global allowlist
+# -----------------------------------------------------------------------------
+[[allowlists]]
+description = "This configuration file lists public IDs and example patterns"
+paths = [
+  '''(^|/)\.gitleaks\.toml$''',
+]

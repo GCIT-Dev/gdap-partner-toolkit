@@ -1,0 +1,33 @@
+{
+  "bindings": [
+    {
+      "type": "timerTrigger",
+      "direction": "in",
+      "name": "Timer",
+      "schedule": "0 0 */6 * * *",
+      "runOnStartup": false
+    },
+    {
+      "type": "queue",
+      "direction": "out",
+      "name": "alerts",
+      "queueName": "external-forwards",
+      "connection": "MspGdapStorage"
+    },
+    {
+      "type": "blob",
+      "direction": "in",
+      "name": "previousState",
+      "path": "mspgdap-state/external-forwards.json",
+      "dataType": "string",
+      "connection": "MspGdapStorage"
+    },
+    {
+      "type": "blob",
+      "direction": "out",
+      "name": "state",
+      "path": "mspgdap-state/external-forwards.json",
+      "connection": "MspGdapStorage"
+    }
+  ]
+}
