@@ -68,6 +68,10 @@ jobs:
 
       - name: Pester
         run: |
+          # GitHub prepends $ErrorActionPreference = 'stop' to pwsh steps. The module reports failed steps as
+          # non-terminating errors and the tests assert on those results, so run Pester with the default preference.
+          # Run.Exit still fails the step when any test fails.
+          $ErrorActionPreference = 'Continue'
           Import-Module -Name Pester -MinimumVersion 5.5.0
           $config = New-PesterConfiguration
           $config.Run.Path = './tests'
@@ -101,12 +105,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: gitleaks
-        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+      # The gitleaks CLI is used directly (MIT licensed, no licence key needed in an organisation),
+      # pinned to a release and checked against the release checksums before it runs.
+      - name: Install gitleaks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Required when the repository belongs to a GitHub organisation (free key from gitleaks.io)
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
-          GITLEAKS_CONFIG: .gitleaks.toml
-          GITLEAKS_ENABLE_COMMENTS: false
-          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          set -euo pipefail
+          base="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
+          file="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -sSfL -o "$file" "$base/$file"
+          curl -sSfL -o checksums.txt "$base/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
+          grep " ${file}\$" checksums.txt | sha256sum -c -
+          tar -xzf "$file" gitleaks
+          ./gitleaks version
+
+      - name: gitleaks (full history)
+        run: ./gitleaks git --config .gitleaks.toml --redact --verbose --exit-code 1 .

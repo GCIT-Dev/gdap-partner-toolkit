@@ -67,7 +67,7 @@ Thanks for helping. This toolkit is used against real customer tenants, so the b
 
 ## GitHub organisation repositories and gitleaks
 
-The CI workflow uses `gitleaks/gitleaks-action`. When the repository belongs to a GitHub organisation, the action needs a free licence key in the repository secret `GITLEAKS_LICENSE`. Forks owned by personal accounts don't need one.
+The CI workflow downloads a pinned gitleaks release, checks it against the release checksums and scans the full history with `.gitleaks.toml`. No licence key or secret is needed. Run the same scan locally with `gitleaks git --config .gitleaks.toml --redact .` before you push.
 
 ## Reporting security issues
 
