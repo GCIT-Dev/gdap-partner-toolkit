@@ -44,7 +44,10 @@ function Resolve-MspCertificate {
     if ($cert.NotBefore.ToUniversalTime() -gt $Now.AddMinutes(5)) { throw "Certificate $($cert.Thumbprint) is not valid until $($cert.NotBefore.ToString('yyyy-MM-dd'))." }
     $rsa = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPublicKey($cert)
     if (-not $rsa) { throw "Certificate $($cert.Thumbprint) does not have an RSA key. Microsoft Entra certificate credentials need RSA." }
-    if ($rsa.KeySize -lt 2048) { throw "Certificate $($cert.Thumbprint) has a $($rsa.KeySize)-bit key. Use 2048 bits or more." }
+    # Read KeySize through the base class: on Linux RSAOpenSsl overrides it with a setter only, which PowerShell
+    # reports as a write-only property.
+    $keySize = [int]([System.Security.Cryptography.AsymmetricAlgorithm].GetProperty('KeySize').GetValue($rsa))
+    if ($keySize -lt 2048) { throw "Certificate $($cert.Thumbprint) has a $keySize-bit key. Use 2048 bits or more." }
     if ($RequirePrivateKey -and -not $cert.HasPrivateKey) { throw "Certificate $($cert.Thumbprint) has no private key on this machine." }
     return $cert
 }

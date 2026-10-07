@@ -82,8 +82,10 @@
             CheckParameter                  = $false
         }
 
+        # Off: cosmetic only, and PSScriptAnalyzer 1.25 intermittently throws a NullReferenceException inside this
+        # rule when a whole folder is analysed (seen locally and on the GitHub Windows runner).
         PSUseCorrectCasing                             = @{
-            Enable = $true
+            Enable = $false
         }
 
         PSProvideCommentHelp                           = @{
