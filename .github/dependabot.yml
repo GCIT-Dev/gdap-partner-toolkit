@@ -1,15 +1,17 @@
 version: 2
+
+# GCIT standard: GitHub Actions version updates only. Security fixes come
+# from the weekly security sweep, not from Dependabot pull requests.
+# Runbook: https://docs.gcit.com.au/portal-kit/playbooks/keep-dependencies-secure
+
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
       day: monday
+      time: "09:00"
       timezone: Australia/Brisbane
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: ci
     groups:
-      github-actions:
-        patterns:
-          - "*"
+      actions:
+        update-types: [minor, patch]
